@@ -1,6 +1,7 @@
-import style from '../css/Nav.module.css';
+import style from '../css/homestyle.module.css';
 
 import logo1 from '../images/logo.svg';
+import user from '../images/user.svg';
 
 export default function Nav() {
     return (
@@ -9,6 +10,12 @@ export default function Nav() {
                 className={style.logo1}
                 src={logo1}
                 alt="logo1"
+            />
+
+            <img
+                className={style.user}
+                src = {user}
+                alt = "user"
             />
         </div>
     )
