@@ -1,0 +1,12 @@
+.nav {
+    background-color: white;
+    position: relative;
+    height: 70px;
+    border-bottom: 2px solid #e7e7e7;
+    width: 100%;
+}
+
+.logo1 {
+    width:100px;
+    height:100px;
+}
