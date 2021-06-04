@@ -23,7 +23,9 @@ export default function Search() {
             <button
                 className={style.search_button}
                 type="submit"
-            />
+            >
+                검색
+            </button>
         </div>
     )
 }

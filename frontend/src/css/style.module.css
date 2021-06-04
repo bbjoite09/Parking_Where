@@ -1,0 +1,39 @@
+.main_box {
+    height: 100vh;
+}
+
+
+
+.title_box {
+    display: block;
+    height : 30%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: normal;
+    align-items: center;
+}
+
+.title {
+    width : 65%;
+    height: 65%;
+}
+
+.car_box {
+    display: block;
+    height : 60%;
+    text-align: center;
+    background-image: url('../images/map.PNG');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.car {
+    margin-top: 100px;
+    width : 50%;
+    height: 50%;
+}
