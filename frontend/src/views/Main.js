@@ -1,5 +1,8 @@
+import React, { useState, useEffect } from "react";
+import style from '../css/style.module.css';
+
 import Nav from '../components/Nav';
-import style from '../css/homestyle.module.css';
+import Search from "../components/Search";
 
 import car from '../images/car.svg';
 import title from '../images/title.svg';
@@ -8,17 +11,21 @@ export default function Main() {
     return (
         <div className={style.main_box}>
             <Nav/>
-            <img
+            <div className={style.title_box}>
+                <img
                 className={style.title}
                 src={title}
                 alt='title'
-            />
-
-            <img
+                />
+            </div>
+            <Search/>
+            <div className={style.car_box}>
+                <img
                 className={style.car}
                 src={car}
                 alt='car'
-            />
+                />
+            </div>
         </div>
     )
 }
