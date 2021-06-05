@@ -11,14 +11,19 @@ db = client.get_database('parking_lot')
 
 app = Flask(__name__)
 
+app.config["DEBUG"] = True
+
 load_dotenv()
 SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
 
-
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def home():
     return 'main page'
 
+@app.route('/search', methods=["POST"])
+def search() :
+    search_data = request.get_json()
+    print(search_data)
 
 # 공공데이터 공영주차장 정보 DB에 저장
 @app.route('/api/public_plot', methods=['GET'])
