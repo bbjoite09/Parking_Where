@@ -11,21 +11,23 @@ db = client.get_database('parking_lot')
 
 app = Flask(__name__)
 
+app.config["DEBUG"] = True
+
 load_dotenv()
 SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
 
-
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def home():
     return 'main page'
 
+@app.route('/search', methods=["POST"])
+def search() :
+    search_data = request.get_json()
+    print(search_data)
 
 # 공공데이터 공영주차장 정보 DB에 저장
 @app.route('/api/public_plot', methods=['GET'])
 def get_parking_lots():
-    # geosphere index 생성
-    db.park_info.create_index([("location", pymongo.GEOSPHERE)])
-
     response = requests.get(
         f'http://openapi.seoul.go.kr:8088/{SEOUL_API_KEY}/json/GetParkInfo/1/1000/'
     )
@@ -74,36 +76,23 @@ def get_parking_lots():
 
 @app.route('/api/public_plot/get', methods=['GET'])
 def get_index():
+    db.park_info.create_index([("location", pymongo.GEOSPHERE)])
     indexes = db.park_info.index_information()
     print(indexes)
 
     # 예시: 사각형 안에 포함되는 주차장
     results = list(db.park_info.find({
-        'location': {
-            '$geoWithin': {
-                '$geometry': {
-                    'type': "Polygon",
-                    'coordinates': [[[0, 0],
-                                     [130, 0],
-                                     [130, 50],
-                                     [0, 50],
-                                     [0, 0]]]
-                }}}}))
-    for i in results[:3]:
-        print(i)
-
-    # 예시: 특정 포인트와 가까운 장소 반환
-    results = list(db.park_info.find({
        'location': {
-          '$nearSphere': {
+          '$geoWithin': {
              '$geometry': {
-               'type': "Point",
-               'coordinates': [127.04, 37.64]
-                },
-                '$minDistance': 1000,
-                '$maxDistance': 5000
-          }}}))
-    for i in results:
+               'type': "Polygon" ,
+               'coordinates': [[[ 0, 0 ],
+                               [ 130, 0],
+                                [ 130, 50 ],
+                                [ 0, 50 ],
+                                [0, 0]]]
+           }}}}))
+    for i in results[:3]:
         print(i)
 
     return '1'
