@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import style from '../css/component.module.css';
+import style from '../css/style.module.css';
 
 import rens from '../images/rens.svg';
 
 export default function Search() {
     const [content, setContent] = useState("");
 
-    const submit = () => {
-        console.log(content);
-    }
+    const axios = require('axios');
+    const submit = async() => {
+        const res = await axios.post('/search', {
+            content: content,
+        }).catch(function (error) {
+            console.log(error);
+        });
+    };
 
     return (
         <div className={style.search_bar}>

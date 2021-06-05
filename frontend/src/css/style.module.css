@@ -1,3 +1,7 @@
+@media only screen and (max-width: 480px) {
+
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
 
 body {
@@ -40,4 +44,93 @@ body {
     margin-top: 100px;
     width : 50%;
     height: 50%;
+}
+
+.nav {
+    background-color: white;
+    position: sticky;
+    height: 10%;
+    width: 100%;
+}
+
+.logo1 {
+    width:50px;
+    height:50px;
+    position: relative;
+    display: inline-block;
+    float: left;
+    left: 10px;
+    top: 10px;
+    cursor:pointer;
+}
+
+.logo1:hover {
+    width: 53px;
+    height: 53px;
+}
+
+.user {
+    width:50px;
+    height:50px;
+    position: relative;
+    display: inline-block;
+    top: 10px;
+    right: 10px;
+    float: right;
+    cursor: pointer;
+}
+
+.user:hover {
+    width: 53px;
+    height: 53px;
+}
+
+.search_bar {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    width: 70vw;
+    heigh: 100px;
+    left : 15vw;
+    top  : 35vh;
+    z-index: 10;
+    border: solid 5px #FFC000;
+    border-radius: 37px;
+    background-color: white;
+}
+
+.search_rens {
+    margin: 5px 5px 10px 10px;
+    width: 50px;
+    height: 50px;
+}
+
+.search_box {
+    width: 78%;
+    border: 0px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size : 20px;
+}
+
+.search_box:focus{
+    border: 0px;
+    outline: none;
+}
+
+.search_button {
+    color: white;
+    width:160px;
+    background-color: #FFC000;
+    border: 0px;
+    border-radius: inherit;
+    padding: 0px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size : 20px;
+}
+
+.search_button:hover {
+    border: 0px;
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    font-family: 'Noto Sans KR', sans-serif;
 }
