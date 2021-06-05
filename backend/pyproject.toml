@@ -8,6 +8,8 @@ authors = ["Heeeon <bbjoite09@naver.com>"]
 python = "^3.8"
 Flask = "^2.0.1"
 pymongo = "^3.11.4"
+requests = "^2.25.1"
+python-dotenv = "^0.17.1"
 
 [tool.poetry.dev-dependencies]
 
