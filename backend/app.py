@@ -1,5 +1,6 @@
 import os
 
+import pymongo
 import requests as requests
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
@@ -10,14 +11,19 @@ db = client.get_database('parking_lot')
 
 app = Flask(__name__)
 
+app.config["DEBUG"] = True
+
 load_dotenv()
 SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
 
-
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def home():
     return 'main page'
 
+@app.route('/search', methods=["POST"])
+def search() :
+    search_data = request.get_json()
+    print(search_data)
 
 # 공공데이터 공영주차장 정보 DB에 저장
 @app.route('/api/public_plot', methods=['GET'])
@@ -67,6 +73,30 @@ def get_parking_lots():
         db.park_info.insert(doc)
 
     return 'DB 삽입 성공'
+
+@app.route('/api/public_plot/get', methods=['GET'])
+def get_index():
+    db.park_info.create_index([("location", pymongo.GEOSPHERE)])
+    indexes = db.park_info.index_information()
+    print(indexes)
+
+    # 예시: 사각형 안에 포함되는 주차장 
+    results = list(db.park_info.find({
+       'location': {
+          '$geoWithin': {
+             '$geometry': {
+               'type': "Polygon" ,
+               'coordinates': [[[ 0, 0 ],
+                               [ 130, 0],
+                                [ 130, 50 ],
+                                [ 0, 50 ],
+                                [0, 0]]]
+           }}}}))
+    for i in results[:3]:
+        print(i)
+
+    return '1'
+
 
 
 if __name__ == '__main__':
