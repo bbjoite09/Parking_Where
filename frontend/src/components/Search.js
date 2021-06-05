@@ -6,6 +6,10 @@ import rens from '../images/rens.svg';
 export default function Search() {
     const [content, setContent] = useState("");
 
+    const submit = () => {
+
+    }
+
     return (
         <div className={style.search_bar}>
             <img
@@ -19,10 +23,12 @@ export default function Search() {
                 id='search_box'
                 className={style.search_box}
                 value={content}
+                onChange={(e) => setContent(e.target.value)}
             />
             <button
                 className={style.search_button}
                 type="submit"
+                onClick={()=> submit()}
             >
                 검색
             </button>

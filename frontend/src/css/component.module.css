@@ -28,20 +28,21 @@
 .search_bar {
     position: absolute;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     width: 70vw;
-    heigh: 10vh;
+    heigh: 100px;
     left : 15vw;
     top  : 35vh;
     z-index: 10;
     border: solid 5px #FFC000;
-    border-radius: 30px;
+    border-radius: 37px;
     background-color: white;
 }
 
 .search_rens {
-    width: 7%;
-    height: 100%;
+    margin: 5px 5px 10px 10px;
+    width: 50px;
+    height: 50px;
 }
 
 .search_box {
@@ -51,8 +52,13 @@
 
 .search_button {
     color: white;
-    width:15%;
+    width:160px;
     background-color: #FFC000;
-    border : 0px;
     border-radius: inherit;
+    padding: 0px;
+    cursor: pointer;
+}
+
+.search_button:hover {
+    box-shadow: darkorange;
 }
