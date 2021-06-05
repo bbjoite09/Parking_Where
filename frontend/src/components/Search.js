@@ -7,7 +7,7 @@ export default function Search() {
     const [content, setContent] = useState("");
 
     const submit = () => {
-
+        console.log(content);
     }
 
     return (
@@ -19,7 +19,7 @@ export default function Search() {
             />
             <input
                 type='text'
-                placeholder="장소를 입력하세요"
+                placeholder="  장소를 입력하세요"
                 id='search_box'
                 className={style.search_box}
                 value={content}

@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
 .nav {
     background-color: white;
     position: sticky;
@@ -13,6 +19,12 @@
     float: left;
     left: 10px;
     top: 10px;
+    cursor:pointer;
+}
+
+.logo1:hover {
+    width: 53px;
+    height: 53px;
 }
 
 .user {
@@ -23,6 +35,12 @@
     top: 10px;
     right: 10px;
     float: right;
+    cursor: pointer;
+}
+
+.user:hover {
+    width: 53px;
+    height: 53px;
 }
 
 .search_bar {
@@ -48,17 +66,29 @@
 .search_box {
     width: 78%;
     border: 0px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size : 20px;
+}
+
+.search_box:focus{
+    border: 0px;
+    outline: none;
 }
 
 .search_button {
     color: white;
     width:160px;
     background-color: #FFC000;
+    border: 0px;
     border-radius: inherit;
     padding: 0px;
     cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size : 20px;
 }
 
 .search_button:hover {
-    box-shadow: darkorange;
+    border: 0px;
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    font-family: 'Noto Sans KR', sans-serif;
 }
