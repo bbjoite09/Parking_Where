@@ -57,8 +57,10 @@ def get_parking_lots():
             "Add cost": add_cost,
             "Weekday begin time": weekday_begin_time,
             "Weekday end time": weekday_end_time,
-            "Latitude": lat,
-            "Longitude": lng
+            "location": {
+                "type": 'Point',
+                "coordinates": [lng, lat]  # [경도,위도] 순서
+            },
         }
 
         # document 삽입
