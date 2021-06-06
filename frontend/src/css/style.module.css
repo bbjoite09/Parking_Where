@@ -120,9 +120,10 @@ body {
 .search_button {
     color: white;
     width:160px;
+    height: 65px;
     background-color: #FFC000;
     border: 0px;
-    border-radius: inherit;
+    border-radius: 35px;
     padding: 0px;
     cursor: pointer;
     font-family: 'Noto Sans KR', sans-serif;
@@ -131,6 +132,7 @@ body {
 
 .search_button:hover {
     border: 0px;
+    width: 163px;
     box-shadow: 0 0 11px rgba(33,33,33,.2);
     font-family: 'Noto Sans KR', sans-serif;
 }
@@ -145,4 +147,8 @@ body {
     position: relative;
     width: 90vw;
     height: 80vh;
+}
+
+.SearchOptions_box {
+    width: 300px;
 }
