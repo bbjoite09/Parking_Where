@@ -9,7 +9,7 @@ export default function Search() {
     const axios = require('axios');
     const submit = async() => {
         const res = await axios.post('/search', {
-            content: JSON.stringify(content),
+            content: content,
         }).catch(function (error) {
             console.log(error);
         });

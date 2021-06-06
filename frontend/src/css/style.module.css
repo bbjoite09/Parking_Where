@@ -49,7 +49,7 @@ body {
 .nav {
     background-color: white;
     position: sticky;
-    height: 10%;
+    height: 70px;
     width: 100%;
 }
 
@@ -133,4 +133,16 @@ body {
     border: 0px;
     box-shadow: 0 0 11px rgba(33,33,33,.2);
     font-family: 'Noto Sans KR', sans-serif;
+}
+
+.location_box {
+    display: flex;
+    flex-direction: column;
+}
+
+.map {
+    display: block;
+    position: relative;
+    width: 90vw;
+    height: 80vh;
 }
