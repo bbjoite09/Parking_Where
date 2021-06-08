@@ -2,6 +2,7 @@ import json
 import os
 from math import fsum
 
+
 import pymongo
 import requests as requests
 from flask import Flask, request, jsonify
@@ -161,6 +162,7 @@ def get_index():
     indexes = db.park_info.index_information()
     print(indexes)
 
+
     # 예시: 사각형 안에 포함되는 주차장
     results = list(db.park_info.find({
         'location': {
@@ -173,6 +175,7 @@ def get_index():
                                      [0, 50],
                                      [0, 0]]]
                 }}}}))
+
     for i in results[:3]:
         print(i)
 
