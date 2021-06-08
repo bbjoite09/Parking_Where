@@ -17,7 +17,7 @@ export default function Search() {
     };
 */
     return (
-        <div className={style.search_bar}>
+        <div className={style.search}>
             <img
                 className={style.search_rens}
                 src={rens}
