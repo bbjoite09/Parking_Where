@@ -9,7 +9,7 @@ import title from '../images/title.svg';
 
 export default function Main() {
     return (
-        <div className={style.main_box}>
+        <div className={style.main}>
             <Nav/>
             <div className={style.title_box}>
                 <img
