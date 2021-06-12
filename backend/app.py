@@ -4,6 +4,7 @@ from math import fsum
 
 import pymongo
 import requests as requests
+from bson import SON
 from flask import Flask, request, jsonify, render_template, json
 from flask import Flask, request
 from pymongo import MongoClient
@@ -66,7 +67,7 @@ def get_data():
             doc = {
                 "park_id": park_id,
                 "Name": name,
-                "Tel" : tel,
+                "Tel": tel,
                 "Address": address,
                 "Free": free,
                 "Night free": night_free,
@@ -164,27 +165,45 @@ def remove_dup_name():
 
 @app.route('/api/public_plot/get', methods=['GET'])
 def get_index():
+    # geosphere index 생성
     db.park_info.create_index([("location", pymongo.GEOSPHERE)])
     indexes = db.park_info.index_information()
     print(indexes)
 
-    # 예시: 사각형 안에 포함되는 주차장
-    results = list(db.park_info.find({
-        'location': {
-            '$geoWithin': {
-                '$geometry': {
-                    'type': "Polygon",
-                    'coordinates': [[[0, 0],
-                                     [130, 0],
-                                     [130, 50],
-                                     [0, 50],
-                                     [0, 0]]]
-                }}}}))
+    # react로부터 data 받기 (POST)
+    data = request.form
+    if len(data) is 0:
+        return jsonify({'result': 'fail', 'msg': '요청받은 데이터가 없습니다.'})
+    # TODO: float인지 확인
+    lng = data['lng']
+    lat = data['lat']
 
-    for i in results[:3]:
-        print(i)
+    # 특정 위치에서 1.5km 이내 주차장 정보 가져오기
+    near_parkings = list(db.park_info.find({'location':
+                                                {'$near':
+                                                     SON([('$geometry',
+                                                           SON([('type', 'Point'),
+                                                                ('coordinates',
+                                                                 [lng, lat])])),
+                                                          ('$maxDistance', 1500)
+                                                          ])
+                                                 }}))
+    # lng: 126.83870535803958, lat: 37.48665649894195 (천왕역 test)
 
-    return '1'
+    for park in near_parkings:
+        tmp_lng = park['location']['coordinates'][0]
+        tmp_lat = park['location']['coordinates'][1]
+        del (park['_id'], park['park_id'], park['location'])
+        park['lng'] = tmp_lng
+        park['lat'] = tmp_lat
+        if park['Free'] == "무료":
+            park['Basic_time'] = 0
+            park['Basic_cost'] = 0
+            park['Add cost'] = 0
+
+        print(park)
+
+    return jsonify({'result': 'success'}, {'parkings': near_parkings})
 
 
 if __name__ == '__main__':
