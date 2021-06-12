@@ -7,6 +7,7 @@ import requests as requests
 from bson import SON
 from flask import Flask, request, jsonify, render_template, json
 from flask import Flask, request
+from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
@@ -14,6 +15,7 @@ client = MongoClient('localhost', 27017)
 db = client.get_database('parking_lot')
 
 app = Flask(__name__)
+CORS(app)
 
 app.config["DEBUG"] = True
 
