@@ -1,8 +1,9 @@
+import json
 import os
+from math import fsum
 
 import pymongo
-import requests as requests
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
@@ -15,23 +16,19 @@ app.config["DEBUG"] = True
 
 load_dotenv()
 SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
-KAKAO_MAP_KEY = os.environ['KAKAO_MAP_KEY']
+KAKAO_JS_KEY = os.environ['KAKAO_JS_KEY']
 
-@app.route('/', methods=["GET"])
+
+@app.route('/', methods=["GET", "POST"])
 def home():
     return 'main page'
+
 
 @app.route('/search', methods=["POST"])
 def search():
     search_data = request.get_json()
     print(search_data)
 
-# 공공데이터 공영주차장 정보 DB에 저장
-@app.route('/api/public_plot', methods=['GET'])
-def get_parking_lots():
-    response = requests.get(
-        f'http://openapi.seoul.go.kr:8088/{SEOUL_API_KEY}/json/GetParkInfo/1/1000/'
-    )
 
 # 공공데이터 공영주차장 정보 DB에 저장 (총 14417개)
 @app.route('/api/public_plot/data')
@@ -54,8 +51,11 @@ def get_data():
             basic_time = data['time_rate']
             add_cost = data['add_rates']
 
-            weekday_begin_time = data['weekday_begin_time']
-            weekday_end_time = data['weekday_end_time']
+            wbt = data['weekday_begin_time']
+            wet = data['weekday_end_time']
+
+            weekday_begin_time = wbt[:2] + ":" + wbt[2:]
+            weekday_end_time = wet[:2] + ":" + wet[2:]
 
             lat = data['lat']
             lng = data['lng']
@@ -82,7 +82,7 @@ def get_data():
 
     print(db.park_info.count())
 
-    return 'DB 삽입 성공'
+    return "DB 삽입 성공"
 
 
 # DB에서 겹치는 이름들은 하나로 모아 평균 위경도로 저장 (921개로 압축)
@@ -155,7 +155,7 @@ def remove_dup_name():
 
     print(temp, count, db.park_info.count())
 
-    return 'hello'
+    return 'DB 중복 제거'
 
 
 @app.route('/api/public_plot/get', methods=['GET'])
@@ -163,7 +163,6 @@ def get_index():
     db.park_info.create_index([("location", pymongo.GEOSPHERE)])
     indexes = db.park_info.index_information()
     print(indexes)
-
 
     # 예시: 사각형 안에 포함되는 주차장
     results = list(db.park_info.find({
@@ -182,7 +181,6 @@ def get_index():
         print(i)
 
     return '1'
-
 
 
 if __name__ == '__main__':
