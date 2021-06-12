@@ -168,22 +168,19 @@ def remove_dup_name():
 @app.route('/api/public_plot/get', methods=['POST'])
 def get_index():
 
-
-    search_data = request.get_json()
-    print(search_data)
-
     # geosphere index 생성
     db.park_info.create_index([("location", pymongo.GEOSPHERE)])
     indexes = db.park_info.index_information()
     print(indexes)
 
     # react로부터 data 받기 (POST)
-    data = request.form
+    data = request.get_json()
+    # print(search_data)
     if len(data) == 0:
         return jsonify({'result': 'fail', 'msg': '요청받은 데이터가 없습니다.'})
     # TODO: float인지 확인
-    lng = data['lng']
-    lat = data['lat']
+    lng = float(data['lng'])
+    lat = float(data['lat'])
 
     # 특정 위치에서 1.5km 이내 주차장 정보 가져오기
     near_parkings = list(db.park_info.find({'location':
@@ -223,20 +220,20 @@ def get_current_location():
     # lng = data['lng']
     # lat = data['lat']
 
-    near_parkings = list(db.park_info.find({
-        'location': {
-            '$geoWithin': {
-                '$geometry': {
-                    'type': "Polygon",
-                    'coordinates': [[[128, 36],
-                                     [128, 37],
-                                     [127, 37],
-                                     [127, 36],
-                                     [128, 36]
-                                     ]]
-                }}}}))
-    for i in near_parkings:
-        print(i)
+    # near_parkings = list(db.park_info.find({
+    #     'location': {
+    #         '$geoWithin': {
+    #             '$geometry': {
+    #                 'type': "Polygon",
+    #                 'coordinates': [[[128, 36],
+    #                                  [128, 37],
+    #                                  [127, 37],
+    #                                  [127, 36],
+    #                                  [128, 36]
+    #                                  ]]
+    #             }}}}))
+    # for i in near_parkings:
+    #     print(i)
 
     return 'true'
 
