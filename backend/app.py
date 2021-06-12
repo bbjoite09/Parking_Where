@@ -2,7 +2,7 @@ import os
 
 import pymongo
 import requests as requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
@@ -15,8 +15,9 @@ app.config["DEBUG"] = True
 
 load_dotenv()
 SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
+KAKAO_MAP_KEY = os.environ['KAKAO_MAP_KEY']
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/', methods=["GET"])
 def home():
     return 'main page'
 
