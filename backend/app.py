@@ -6,7 +6,6 @@ import pymongo
 import requests as requests
 from bson import SON
 from flask import Flask, request, jsonify, render_template, json
-from flask import Flask, request
 from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -21,7 +20,7 @@ app.config["DEBUG"] = True
 
 load_dotenv()
 SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
-KAKAO_JS_KEY = os.environ['KAKAO_JS_KEY']
+KAKAO_JS_KEY = os.environ['KAKAO_MAP_KEY']
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -206,6 +205,34 @@ def get_index():
         print(park)
 
     return jsonify({'result': 'success'}, {'parkings': near_parkings})
+
+
+@app.route('/api/public_plot/current', methods=['GET'])
+def get_current_location():
+    # 현재 지도에서 검색
+    # data = request.form
+    # if len(data) == 0:
+    #     return jsonify({'result': 'fail', 'msg': '요청받은 데이터가 없습니다.'})
+    # # TODO: float인지 확인
+    # lng = data['lng']
+    # lat = data['lat']
+
+    near_parkings = list(db.park_info.find({
+        'location': {
+            '$geoWithin': {
+                '$geometry': {
+                    'type': "Polygon",
+                    'coordinates': [[[128, 36],
+                                     [128, 37],
+                                     [127, 37],
+                                     [127, 36],
+                                     [128, 36]
+                                     ]]
+                }}}}))
+    for i in near_parkings:
+        print(i)
+
+    return 'true'
 
 
 if __name__ == '__main__':
