@@ -2,6 +2,7 @@ import json
 import os
 from math import fsum
 
+from flask_cors import CORS
 import pymongo
 import requests as requests
 from bson import SON
@@ -20,11 +21,11 @@ app.config["DEBUG"] = True
 
 load_dotenv()
 SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
-KAKAO_JS_KEY = os.environ['KAKAO_MAP_KEY']
 
 
 @app.route('/', methods=["GET", "POST"])
 def home():
+
     return 'main page'
 
 
@@ -164,8 +165,13 @@ def remove_dup_name():
     return 'DB 중복 제거'
 
 
-@app.route('/api/public_plot/get', methods=['GET'])
+@app.route('/api/public_plot/get', methods=['POST'])
 def get_index():
+
+
+    search_data = request.get_json()
+    print(search_data)
+
     # geosphere index 생성
     db.park_info.create_index([("location", pymongo.GEOSPHERE)])
     indexes = db.park_info.index_information()
@@ -234,6 +240,5 @@ def get_current_location():
 
     return 'true'
 
-
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=7000, debug=True)
+    app.run(port=7000, debug=True)

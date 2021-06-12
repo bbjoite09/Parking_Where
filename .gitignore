@@ -6,7 +6,7 @@
 instance/*
 !instance/.gitignore
 .webassets-cache
-backend/.env
+.env
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files
@@ -116,7 +116,7 @@ celerybeat.pid
 
 # Environments
 # .env
-backend/.env/
+.env/
 .venv/
 env/
 venv/
