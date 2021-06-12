@@ -48,7 +48,7 @@ def get_data():
             # 필요한 정보 정의(주차장명, 주소, 유/무료 구분, 야간 무료 여부, 기본 요금, 기본 시간, 추가 요금, 주간 시작 시간, 주간 종료 시간, 위도, 경도)
             park_id = count
             name = data['parking_name']
-            tel = data['TEL']
+            tel = data['tel']
             address = data['addr']
             free = data['pay_nm']
             night_free = data['night_free_open']
