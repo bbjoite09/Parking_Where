@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import style from '../css/style.module.css';
+import {Link} from "react-router-dom";
 
 import rens from '../images/rens.svg';
 
 export default function Search() {
     const [content, setContent] = useState("");
-
+/*
     const axios = require('axios');
     const submit = async() => {
         const res = await axios.post('/search', {
@@ -14,9 +15,9 @@ export default function Search() {
             console.log(error);
         });
     };
-
+*/
     return (
-        <div className={style.search_bar}>
+        <div className={style.search}>
             <img
                 className={style.search_rens}
                 src={rens}
@@ -30,13 +31,10 @@ export default function Search() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
             />
-            <button
-                className={style.search_button}
-                type="submit"
-                onClick={()=> submit()}
-            >
-                검색
-            </button>
+            <Link
+                to={{pathname: `/selects/:${content}`, content: content}}>
+                <button className={style.search_button}>검색</button>
+            </Link>
         </div>
     )
 }
