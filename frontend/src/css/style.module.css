@@ -7,8 +7,8 @@
 body {
     font-family: 'Noto Sans KR', sans-serif;
 }
-
-.main_box {
+/* Main.js */
+.main {
     height: 100vh;
 }
 
@@ -46,10 +46,11 @@ body {
     height: 50%;
 }
 
+/* Nav.js */
 .nav {
     background-color: white;
     position: sticky;
-    height: 10%;
+    height: 70px;
     width: 100%;
 }
 
@@ -85,7 +86,8 @@ body {
     height: 53px;
 }
 
-.search_bar {
+/* Search.js */
+.search {
     position: absolute;
     display: flex;
     justify-content: space-between;
@@ -120,9 +122,10 @@ body {
 .search_button {
     color: white;
     width:160px;
+    height: 65px;
     background-color: #FFC000;
     border: 0px;
-    border-radius: inherit;
+    border-radius: 35px;
     padding: 0px;
     cursor: pointer;
     font-family: 'Noto Sans KR', sans-serif;
@@ -131,6 +134,67 @@ body {
 
 .search_button:hover {
     border: 0px;
+    width: 163px;
     box-shadow: 0 0 11px rgba(33,33,33,.2);
     font-family: 'Noto Sans KR', sans-serif;
 }
+
+/* Select.js */
+.selects {
+
+}
+
+.grid_container {
+    display: grid;
+    grid-template-columns: 530px 1fr;
+}
+
+.map {
+    position: relative;
+    height: 635px;
+    float: right;
+    background-size: inherit;
+    width: 975px;
+    margin-left: 5px;
+}
+
+.main_container {
+    position: relative;
+    width: 530px;
+    height : 635px;
+    overflow-y: scroll;
+    display: inline-block;
+}
+
+/* SearchOptions.js */
+.search_options {
+    width: 500px;
+    border: solid 3px black;
+    height: 155px;
+    display: block;
+}
+
+.place_name {
+    margin:10px 5px;
+}
+
+.category_group_name{
+    margin:10px 10px;
+}
+
+.road_address_name {
+    margin:10px 10px;
+}
+
+.select_button {
+    width: 100px;
+    float: right;
+    margin: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.select_button:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    width: 102px;
+}
+
