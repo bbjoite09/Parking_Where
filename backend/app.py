@@ -176,14 +176,27 @@ def get_index():
                                                 {'$near':
                                                      SON([('$geometry',
                                                            SON([('type', 'Point'),
-                                                                ('coordinates', [lng, lat])])),
+                                                                ('coordinates',
+                                                                 [lng, lat])])),
                                                           ('$maxDistance', 1500)
                                                           ])
                                                  }}))
-    for i in near_parkings:
-        print(i)
+    # lng: 126.83870535803958, lat: 37.48665649894195 (천왕역 test)
 
-    return jsonify({'result': 'success'})
+    for park in near_parkings:
+        tmp_lng = park['location']['coordinates'][0]
+        tmp_lat = park['location']['coordinates'][1]
+        del (park['_id'], park['park_id'], park['location'])
+        park['lng'] = tmp_lng
+        park['lat'] = tmp_lat
+        if park['Free'] == "무료":
+            park['Basic_time'] = 0
+            park['Basic_cost'] = 0
+            park['Add cost'] = 0
+
+        print(park)
+
+    return jsonify({'result': 'success'}, {'parkings': near_parkings})
 
 
 if __name__ == '__main__':
