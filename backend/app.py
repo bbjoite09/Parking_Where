@@ -158,27 +158,32 @@ def remove_dup_name():
 
 @app.route('/api/public_plot/get', methods=['POST', 'GET'])
 def get_index():
+    # geosphere index 생성
     db.park_info.create_index([("location", pymongo.GEOSPHERE)])
     indexes = db.park_info.index_information()
     print(indexes)
 
-    # 예시: 사각형 안에 포함되는 주차장
-    near_parkings = list(db.park_info.find({'location':
-                {'$near':
-                     SON([('$geometry',
-                           SON([('type', 'Point'),
-                                ('coordinates', [126.90421024, 37.43718971])])),
-                            ('$maxDistance', 2000)
-                          ])
-                 }}))
+    # react로부터 data 받기 (POST)
+    data = request.form
+    if len(data) is 0:
+        return jsonify({'result': 'fail', 'msg': '요청받은 데이터가 없습니다.'})
+    # TODO: float인지 확인
+    lng = data['lng']
+    lat = data['lat']
 
+    # 특정 위치에서 1.5km 이내 주차장 정보 가져오기
+    near_parkings = list(db.park_info.find({'location':
+                                                {'$near':
+                                                     SON([('$geometry',
+                                                           SON([('type', 'Point'),
+                                                                ('coordinates', [lng, lat])])),
+                                                          ('$maxDistance', 1500)
+                                                          ])
+                                                 }}))
     for i in near_parkings:
         print(i)
 
-
-
-
-    return '1'
+    return jsonify({'result': 'success'})
 
 
 if __name__ == '__main__':
