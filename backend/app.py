@@ -15,7 +15,7 @@ client = MongoClient('localhost', 27017)
 db = client.get_database('parking_lot')
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config["DEBUG"] = True
 
@@ -174,7 +174,7 @@ def get_index():
 
     # react로부터 data 받기 (POST)
     data = request.form
-    if len(data) is 0:
+    if len(data) == 0:
         return jsonify({'result': 'fail', 'msg': '요청받은 데이터가 없습니다.'})
     # TODO: float인지 확인
     lng = data['lng']
