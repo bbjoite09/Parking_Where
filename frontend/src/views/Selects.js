@@ -12,6 +12,11 @@ export default function Selects(props) {
 
     const [resultList, setResultList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [location, setLocation] = useState(0);
+
+    const handleLocation = (data) => {
+        setLocation(data);
+    }
 
     useEffect(() => {
         console.log("first render")
@@ -36,8 +41,8 @@ export default function Selects(props) {
         console.log("third render");
         setLoading(false);
 
-        var firstResultX = resultList[0].x;
-        var firstResultY =  resultList[0].y;
+        var firstResultX = resultList[location].x;
+        var firstResultY =  resultList[location].y;
 
         var container = document.getElementById('map');
         var options = {
@@ -54,7 +59,7 @@ export default function Selects(props) {
         marker.setMap(map);
         console.log("fort render1");
 
-    }, [resultList]);
+    }, [resultList, location]);
 
     return (
         <div className={style.selects}>
@@ -64,12 +69,16 @@ export default function Selects(props) {
                 {loading && (<script> {console.log("loading render")} </script>)}
                 {!loading && (
                     <div className={style.main_container}>
-                        {resultList.map((option) => (
+                        {resultList.map((option, index) => (
                             <SearchOptions
                                 address_name={option.address_name}
                                 category_group_name={option.category_group_name}
                                 place_name={option.place_name}
                                 road_address_name={option.road_address_name}
+                                lat = {option.y}
+                                lng = {option.x}
+                                index = {index}
+                                onCreate = {handleLocation}
                             />
                         ))}
                     </div>

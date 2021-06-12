@@ -1,5 +1,6 @@
 import os
 
+from flask_cors import CORS
 import pymongo
 import requests as requests
 from flask import Flask, request, jsonify, render_template
@@ -10,15 +11,16 @@ client = MongoClient('localhost', 27017)
 db = client.get_database('parking_lot')
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config["DEBUG"] = True
 
 load_dotenv()
 SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
-KAKAO_MAP_KEY = os.environ['KAKAO_MAP_KEY']
 
 @app.route('/', methods=["GET"])
 def home():
+
     return 'main page'
 
 @app.route('/search', methods=["POST"])
@@ -75,30 +77,13 @@ def get_parking_lots():
 
     return 'DB 삽입 성공'
 
-@app.route('/api/public_plot/get', methods=['GET'])
+@app.route('/api/public_plot/get', methods=['POST'])
 def get_index():
-    db.park_info.create_index([("location", pymongo.GEOSPHERE)])
-    indexes = db.park_info.index_information()
-    print(indexes)
 
-    # 예시: 사각형 안에 포함되는 주차장 
-    results = list(db.park_info.find({
-       'location': {
-          '$geoWithin': {
-             '$geometry': {
-               'type': "Polygon" ,
-               'coordinates': [[[ 0, 0 ],
-                               [ 130, 0],
-                                [ 130, 50 ],
-                                [ 0, 50 ],
-                                [0, 0]]]
-           }}}}))
-    for i in results[:3]:
-        print(i)
+    search_data = request.get_json()
+    print(search_data)
 
-    return '1'
-
-
+    return 'hello'
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=7000, debug=True)
+    app.run(port=7000, debug=True)
