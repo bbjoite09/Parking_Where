@@ -4,6 +4,7 @@ from math import fsum
 
 import pymongo
 import requests as requests
+from bson import SON
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -155,26 +156,27 @@ def remove_dup_name():
     return 'hello'
 
 
-@app.route('/api/public_plot/get', methods=['GET'])
+@app.route('/api/public_plot/get', methods=['POST', 'GET'])
 def get_index():
     db.park_info.create_index([("location", pymongo.GEOSPHERE)])
     indexes = db.park_info.index_information()
     print(indexes)
 
     # 예시: 사각형 안에 포함되는 주차장
-    results = list(db.park_info.find({
-        'location': {
-            '$geoWithin': {
-                '$geometry': {
-                    'type': "Polygon",
-                    'coordinates': [[[0, 0],
-                                     [130, 0],
-                                     [130, 50],
-                                     [0, 50],
-                                     [0, 0]]]
-                }}}}))
-    for i in results[:3]:
+    near_parkings = list(db.park_info.find({'location':
+                {'$near':
+                     SON([('$geometry',
+                           SON([('type', 'Point'),
+                                ('coordinates', [126.90421024, 37.43718971])])),
+                            ('$maxDistance', 2000)
+                          ])
+                 }}))
+
+    for i in near_parkings:
         print(i)
+
+
+
 
     return '1'
 
