@@ -99,10 +99,6 @@ def remove_dup_name():
             else:
                 temp += 1
                 # print(nll[j][0], '이 같네요', j, '번째 삭제합니다')
-                # None type 예외처리
-                if nll[j][1] is None or nll[j][2] is None:
-                    nll[j][1] = 0
-                    nll[j][2] = 0
                 tmp_lng.append(nll[j][1])
                 tmp_lat.append(nll[j][2])
                 # 이름 겹치는 값들은 첫번째 인덱스 빼고 ''로 초기화
