@@ -38,6 +38,7 @@ def search():
 # 공공데이터 공영주차장 정보 DB에 저장 (총 14417개)
 @app.route('/api/public_plot/data')
 def get_data():
+    db.park_info.create_index([("location", pymongo.GEOSPHERE)])
     with open('static/seoul_park_lot.json', encoding='UTF8') as json_file:
         result = json.load(json_file)
 
@@ -85,6 +86,7 @@ def get_data():
             }
             count += 1
             # document 삽입
+            print(doc)
             db.park_info.insert_one(doc)
 
     print(db.park_info.count())
