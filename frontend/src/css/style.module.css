@@ -90,7 +90,6 @@ body {
 .search {
     position: absolute;
     display: flex;
-    justify-content: space-between;
     width: 70vw;
     heigh: 100px;
     left : 15vw;
@@ -108,7 +107,7 @@ body {
 }
 
 .search_box {
-    width: 78%;
+    width: 870px;
     border: 0px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size : 20px;
@@ -127,6 +126,7 @@ body {
     border: 0px;
     border-radius: 35px;
     padding: 0px;
+    margin: 0px;
     cursor: pointer;
     font-family: 'Noto Sans KR', sans-serif;
     font-size : 20px;
@@ -151,17 +151,17 @@ body {
 
 .map {
     position: relative;
-    height: 635px;
+    height: 625px;
     float: right;
     background-size: inherit;
-    width: 975px;
-    margin-left: 5px;
+    width: 970px;
+    margin-left: 10px;
 }
 
 .main_container {
     position: relative;
     width: 530px;
-    height : 635px;
+    height : 625px;
     overflow-y: scroll;
     display: inline-block;
 }
@@ -208,3 +208,37 @@ body {
     width: 102px;
 }
 
+
+/* ResultOptions.js */
+.result_options {
+    width: 500px;
+    border: solid 3px black;
+    height: 175px;
+    display: block;
+}
+
+.result_name {
+    display: inline-block;
+    font-size: 25px;
+    margin:10px 5px;
+    cursor: pointer;
+    background-color: #FFC000;
+    padding : 2px 10px;
+}
+
+.result_name:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    color: white;
+}
+
+.result_cost{
+    margin: 10px 10px;
+}
+
+.result_address {
+    margin: 10px 10px;
+}
+
+.result_time {
+    margin: 10px 10px;
+}

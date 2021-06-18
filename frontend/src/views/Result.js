@@ -13,8 +13,9 @@ export default function Result(props) {
     const lat = content.lat;
     const lng = content.lng;
 
+    const [location, setLocation] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [resData, setResData] = useState();
+    const [resData, setResData] = useState([]);
 
     const getData = async () => {
         const url = 'http://127.0.0.1:7000/api/public_plot/get';
@@ -32,16 +33,6 @@ export default function Result(props) {
         if(res && res.data) setResData(res.data[1].parkings);
     }
 
-    const addMarker = (position, map) => {
-
-        var marker = new kakao.maps.Marker({
-            position: position
-        });
-
-        marker.setMap(map);
-    }
-
-
     useEffect(() => {
 
         getData();
@@ -54,15 +45,17 @@ export default function Result(props) {
         if (!resData) return;
         setLoading(false);
 
-        var firstResultX = resData[0].lat;
-        var firstResultY =  resData[0].lng;
+        if (resData.length == 0) return;
 
-        var container = document.getElementById('map');
-        var options = {
+        var firstResultX = resData[location].lat;
+        var firstResultY =  resData[location].lng;
+
+        var containers = document.getElementById('maps');
+        var option = {
             center: new kakao.maps.LatLng(firstResultY, firstResultX),
             level: 3
         };
-        var map = new kakao.maps.Map(container, options);
+        var map = new kakao.maps.Map(containers, option);
 
         var markerPosition = new kakao.maps.LatLng(firstResultY, firstResultX);
         var marker = new kakao.maps.Marker({
@@ -71,10 +64,10 @@ export default function Result(props) {
 
         marker.setMap(map);
 
-    }, [resData])
+    }, [resData, location])
 
     return (
-        <div>
+        <div className={style.result}>
             <Nav/>
             <div className={style.grid_container}>
                 {loading}
@@ -84,20 +77,15 @@ export default function Result(props) {
                             <ResultOptions
                                 name = {params.Name}
                                 free = {params.Free}
-                                add_cost = {params['Add cost']}
-                                basic_cost = {params.Basic_cost}
-                                basic_time = {params.Basic_time}
                                 address = {params.Address}
                                 begin_time = {params['Weekday begin time']}
                                 end_time = {params['Weekday end time']}
                             />
-
                         ))}
-
                     </div>
                 )}
 
-                <div id="map" className={style.map}></div>
+                <div id='maps' className={style.map}></div>
             </div>
         </div>
     )
