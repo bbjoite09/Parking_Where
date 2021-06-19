@@ -20,6 +20,7 @@ export default function Selects(props) {
     const [targetLat, setTargetLat] = useState(0);
     const [targetLng, setTargetLng] = useState(0);
     const [parkData, setParkData] = useState([]);
+    const [mapObj, setMapObj] = useState();
 
     const getData = async () => {
         const url = 'http://127.0.0.1:7000/api/public_plot/get';
@@ -35,6 +36,21 @@ export default function Selects(props) {
         });
 
         if(res && res.data) setParkData(res.data[1].parkings);
+    }
+
+    const sendThisLocation = async() => {
+
+        if(!mapObj) return;
+
+        var bounds = mapObj.getBounds();
+        console.log(bounds.toString());
+
+        const url = 'http://127.0.0.1:7000/api/public_plot/current';
+        const res = await axios.post(url, {
+            data : bounds
+        }).catch((err) => {
+            console.log(err.response);
+        })
     }
 
     const handleLocation = (data) => {
@@ -113,6 +129,7 @@ export default function Selects(props) {
 
         if(parkData.length == 0) return;
 
+        console.log(parkData);
         //이제 여기에 지도 선택된 장소로 업뎃하고 공용 주차장 마커
 
         var bounds = new kakao.maps.LatLngBounds();
@@ -132,7 +149,8 @@ export default function Selects(props) {
 
         for (let index in parkData) {
             let tempLatLng = new kakao.maps.LatLng(parkData[index].lat, parkData[index].lng);
-            let element = { title : parkData[index].Name , latlng : tempLatLng };
+            let tempLatLngObj = {lat:parkData[index].lat, lng: parkData[index].lng};
+            let element = { title : parkData[index].Name , latlng : tempLatLng, latlngObj : tempLatLngObj};
             positions.push(element);
         }
 
@@ -148,6 +166,7 @@ export default function Selects(props) {
             var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
             var temp_title = positions[i].title;
             var temp_position = positions[i].latlng;
+            let temp_latlngObj = positions[i].latlngObj;
 
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
@@ -157,10 +176,18 @@ export default function Selects(props) {
                 image: markerImage // 마커 이미지
             });
 
+            let link = `https://map.kakao.com/link/to/${temp_title},${temp_latlngObj.lat},${temp_latlngObj.lng}`;
+
+            var iwContent = `<div style=
+                "padding:5px; text-align: center; width: 100%; margin-right: 10px;
+                font-family: 'Noto Sans KR', sans-serif">${temp_title}
+                <a href=${link} style=
+                "color:darkorange; text-align: center;
+                " target="_blank">길찾기</a></div>`
             // 인포윈도우를 생성합니다
             var infowindow = new kakao.maps.InfoWindow({
                 position: temp_position,
-                content: `<span class="info-title">${temp_title}</span>`
+                content: iwContent,
             });
 
             // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
@@ -175,7 +202,7 @@ export default function Selects(props) {
         });
 
         map.setBounds(bounds);
-
+        setMapObj(map);
     }, [parkData])
 
 
@@ -206,12 +233,20 @@ export default function Selects(props) {
                                 address = {option.Address}
                                 begin_time = {option['Weekday begin time']}
                                 end_time = {option['Weekday end time']}
+                                lat = {option.lat}
+                                lng = {option.lng}
                             />
                         ))}
                     </div>
                 )}
-
-                <div id="map" className={style.map}></div>
+                <div id="map" className={style.map}>
+                    <div
+                        className={style.searchThisLocation}
+                        onClick={() => {
+                            sendThisLocation();
+                        }}
+                    >현위치에서 검색</div>
+                </div>
             </div>
         </div>
     )

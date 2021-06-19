@@ -79,7 +79,7 @@ def get_index():
     return jsonify({'result': 'success'}, {'parkings': near_parkings})
 
 
-@app.route('/api/public_plot/current', methods=['GET'])
+@app.route('/api/public_plot/current', methods=['POST'])
 def get_current_location():
     # 현재 지도에서 검색
     # data = request.form
@@ -105,6 +105,7 @@ def get_current_location():
     #     print(i)
 
     return 'true'
+
 
 if __name__ == '__main__':
     app.run(port=7000, debug=True)

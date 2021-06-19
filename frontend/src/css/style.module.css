@@ -144,6 +144,28 @@ body {
 
 }
 
+.searchThisLocation {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    position: relative;
+    z-index: 99;
+    border: solid 2px lightgray;
+    padding-top: 5px;
+    border-radius: 35px;
+    background-color: white;
+    cursor: pointer;
+    display: inline-block;
+    width: 30%;
+    height: 5%;
+    left: 24vw;
+    top: 10px;
+    text-align: center;
+}
+
+.searchThisLocation:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+}
+
 .grid_container {
     display: grid;
     grid-template-columns: 530px 1fr;
@@ -240,5 +262,28 @@ body {
 }
 
 .result_time {
+    width: 320px;
     margin: 10px 10px;
+    display: inline-block;
+}
+
+.last_block {
+    display: flex;
+    height : 27px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.select_button {
+    height: 27px;
+    width: 100px;
+    float: right;
+    margin: 0 5px 5px 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.select_button:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    width: 102px;
 }
