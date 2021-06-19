@@ -4,7 +4,7 @@ import style from '../css/style.module.css';
 import route from '../images/길찾기.svg';
 import {Link} from "react-router-dom";
 
-export default function ResultOptions({name, free, address, begin_time, end_time, lat, lng}) {
+export default function ResultOptions({name, free, address, begin_time, end_time, lat, lng, onCreate}) {
 
     const kakao_link = `https://map.kakao.com/link/to/${name},${lat},${lng}`;
 
@@ -20,6 +20,9 @@ export default function ResultOptions({name, free, address, begin_time, end_time
                     <img
                         src={route}
                         className={style.select_button}
+                        onClick={()=>{
+                            onCreate();
+                        }}
                     />
                 </a>
 

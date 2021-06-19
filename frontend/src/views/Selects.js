@@ -20,7 +20,10 @@ export default function Selects(props) {
     const [targetLat, setTargetLat] = useState(0);
     const [targetLng, setTargetLng] = useState(0);
     const [parkData, setParkData] = useState([]);
+    const [curParkData, setCurParkData] = useState([]);
+
     const [mapObj, setMapObj] = useState();
+    const [thisLocation, setThisLocation] = useState(false);
 
     const getData = async () => {
         const url = 'http://127.0.0.1:7000/api/public_plot/get';
@@ -42,8 +45,9 @@ export default function Selects(props) {
 
         if(!mapObj) return;
 
+        setThisLocation(true);
+
         var bounds = mapObj.getBounds();
-        console.log(bounds.toString());
 
         const url = 'http://127.0.0.1:7000/api/public_plot/current';
         const res = await axios.post(url, {
@@ -51,9 +55,75 @@ export default function Selects(props) {
         }).catch((err) => {
             console.log(err.response);
         })
+
+        if(res && res.data) setCurParkData(res.data[1].parkings);
+
+
+
+    }
+
+    useEffect(() => {
+
+        if (curParkData.length == 0) return;
+
+        let positions = []
+
+        for (let index in curParkData) {
+            let tempLatLng = new kakao.maps.LatLng(curParkData[index].lat, curParkData[index].lng);
+            let tempLatLngObj = {lat: curParkData[index].lat, lng: curParkData[index].lng};
+            let element = {title: curParkData[index].Name, latlng: tempLatLng, latlngObj: tempLatLngObj};
+            positions.push(element);
+        }
+
+        // 마커 이미지의 이미지 주소입니다
+        var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+
+        for (var i = 0; i < positions.length; i++) {
+
+            // 마커 이미지의 이미지 크기 입니다
+            var imageSize = new kakao.maps.Size(24, 35);
+
+            // 마커 이미지를 생성합니다
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+            var temp_title = positions[i].title;
+            var temp_position = positions[i].latlng;
+            let temp_latlngObj = positions[i].latlngObj;
+
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                map: mapObj, // 마커를 표시할 지도
+                position: temp_position, // 마커를 표시할 위치
+                title: temp_title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                image: markerImage // 마커 이미지
+            });
+
+            let link = `https://map.kakao.com/link/to/${temp_title},${temp_latlngObj.lat},${temp_latlngObj.lng}`;
+
+            var iwContent = `<div style=
+                "padding:5px; text-align: center; width: 100%; margin-right: 10px;
+                font-family: 'Noto Sans KR', sans-serif">${temp_title}
+                <a href=${link} style=
+                "color:darkorange; text-align: center;
+                " target="_blank">길찾기</a></div>`
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                position: temp_position,
+                content: iwContent,
+            });
+
+            // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+            infowindow.open(mapObj, marker);
+        }
+
+    }, [curParkData])
+
+    const handleThisLocation = () => {
+        setThisLocation(false);
     }
 
     const handleLocation = (data) => {
+
+        setThisLocation(false);
 
         if(data.clickType === 'name') {
             setLocation(data.content);
@@ -109,6 +179,7 @@ export default function Selects(props) {
         });
 
         marker.setMap(map);
+        setMapObj(map);
 
     }, [resultList, location]);
 
@@ -201,7 +272,10 @@ export default function Selects(props) {
                 position: standardLocation// 마커를 표시할 위치
         });
 
-        map.setBounds(bounds);
+        if(!thisLocation) {
+            map.setBounds(bounds);
+        }
+
         setMapObj(map);
     }, [parkData])
 
@@ -235,6 +309,7 @@ export default function Selects(props) {
                                 end_time = {option['Weekday end time']}
                                 lat = {option.lat}
                                 lng = {option.lng}
+                                onCreate = {handleThisLocation}
                             />
                         ))}
                     </div>

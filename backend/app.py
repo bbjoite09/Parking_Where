@@ -81,30 +81,40 @@ def get_index():
 
 @app.route('/api/public_plot/current', methods=['POST'])
 def get_current_location():
+    data = request.get_json()['data']
+    if len(data) == 0:
+        return jsonify({'result': 'fail', 'msg': '요청받은 데이터가 없습니다.'})
+    print(data)
+
+    swlng = float(data['ha'])  # 남서쪽 좌표
+    swlat = float(data['qa'])  # 남서쪽 좌표
+    nelng = float(data['oa'])  # 북동쪽 좌표
+    nelat = float(data['pa'])  # 북동쪽 좌표
+
     # 현재 지도에서 검색
-    # data = request.form
-    # if len(data) == 0:
-    #     return jsonify({'result': 'fail', 'msg': '요청받은 데이터가 없습니다.'})
-    # # TODO: float인지 확인
-    # lng = data['lng']
-    # lat = data['lat']
+    near_parkings = list(db.park_info.find({
+        'location': {
+            '$geoWithin': {
+                '$geometry': {
+                    'type': "Polygon",
+                    'coordinates': [[[swlng, swlat],
+                                     [nelng, swlat],
+                                     [nelng, nelat],
+                                     [swlng, nelat],
+                                     [swlng, swlat]
+                                     ]]
+                }}}}))
 
-    # near_parkings = list(db.park_info.find({
-    #     'location': {
-    #         '$geoWithin': {
-    #             '$geometry': {
-    #                 'type': "Polygon",
-    #     #                 'coordinates': [[[128, 36],
-    #     #                                  [128, 37],
-    #     #                                  [127, 37],
-    #     #                                  [127, 36],
-    #     #                                  [128, 36]
-    #     #                                  ]]
-    #     #             }}}}))
-    #     # for i in near_parkings:
-    #     print(i)
+    for park in near_parkings:
+        tmp_lng = park['location']['coordinates'][0]
+        tmp_lat = park['location']['coordinates'][1]
+        del (park['_id'], park['park_id'], park['location'])
+        park['lng'] = tmp_lng
+        park['lat'] = tmp_lat
+        print(park)
 
-    return 'true'
+
+    return jsonify({'result': 'success'}, {'parkings': near_parkings})
 
 
 if __name__ == '__main__':
