@@ -127,5 +127,9 @@ def remove_dup_name():
             # print(i, '번째 삭제완료')
     print(temp, count, db.park_info.count())
 
-get_data()
-remove_dup_name()
+while True:
+    if (db.park_info.count() == 0):
+        get_data()
+    else:
+        remove_dup_name()
+        break
