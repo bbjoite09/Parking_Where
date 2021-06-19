@@ -90,7 +90,6 @@ body {
 .search {
     position: absolute;
     display: flex;
-    justify-content: space-between;
     width: 70vw;
     heigh: 100px;
     left : 15vw;
@@ -108,7 +107,7 @@ body {
 }
 
 .search_box {
-    width: 78%;
+    width: 870px;
     border: 0px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size : 20px;
@@ -127,6 +126,7 @@ body {
     border: 0px;
     border-radius: 35px;
     padding: 0px;
+    margin: 0px;
     cursor: pointer;
     font-family: 'Noto Sans KR', sans-serif;
     font-size : 20px;
@@ -144,6 +144,28 @@ body {
 
 }
 
+.searchThisLocation {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    position: relative;
+    z-index: 99;
+    border: solid 2px lightgray;
+    padding-top: 5px;
+    border-radius: 35px;
+    background-color: white;
+    cursor: pointer;
+    display: inline-block;
+    width: 30%;
+    height: 5%;
+    left: 24vw;
+    top: 10px;
+    text-align: center;
+}
+
+.searchThisLocation:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+}
+
 .grid_container {
     display: grid;
     grid-template-columns: 530px 1fr;
@@ -151,17 +173,17 @@ body {
 
 .map {
     position: relative;
-    height: 635px;
+    height: 625px;
     float: right;
     background-size: inherit;
-    width: 975px;
-    margin-left: 5px;
+    width: 970px;
+    margin-left: 10px;
 }
 
 .main_container {
     position: relative;
     width: 530px;
-    height : 635px;
+    height : 625px;
     overflow-y: scroll;
     display: inline-block;
 }
@@ -208,3 +230,60 @@ body {
     width: 102px;
 }
 
+
+/* ResultOptions.js */
+.result_options {
+    width: 500px;
+    border: solid 3px black;
+    height: 175px;
+    display: block;
+}
+
+.result_name {
+    display: inline-block;
+    font-size: 25px;
+    margin:10px 5px;
+    cursor: pointer;
+    background-color: #FFC000;
+    padding : 2px 10px;
+}
+
+.result_name:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    color: white;
+}
+
+.result_cost{
+    margin: 10px 10px;
+}
+
+.result_address {
+    margin: 10px 10px;
+}
+
+.result_time {
+    width: 320px;
+    margin: 10px 10px;
+    display: inline-block;
+}
+
+.last_block {
+    display: flex;
+    height : 27px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.select_button {
+    height: 27px;
+    width: 100px;
+    float: right;
+    margin: 0 5px 5px 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.select_button:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    width: 102px;
+}
