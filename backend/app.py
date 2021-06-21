@@ -1,12 +1,9 @@
-import json
 import os
-from math import fsum
 
-from flask_cors import CORS
 import pymongo
-import requests as requests
+
 from bson import SON
-from flask import Flask, request, jsonify, render_template, json
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -25,7 +22,6 @@ SEOUL_API_KEY = os.environ['SEOUL_API_KEY']
 
 @app.route('/', methods=["GET", "POST"])
 def home():
-
     return 'main page'
 
 
