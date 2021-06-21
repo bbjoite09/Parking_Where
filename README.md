@@ -1,5 +1,26 @@
 # 🚧 parkingWhere 🚧
 
+## ⚙ 외부 패키지 설치
+
+<details><summary>how to local set up</summary>
+
+python 가상 환경(3.8 버전 +)
+
+1. poetry
+   ```shell
+    $ cd backend
+    $ poetry install
+   ```
+
+
+2. npm
+   ```shell
+    $ cd frontend
+    $ npm install
+   ```
+
+</details>
+
 ## 🚷 개발 일지
 
 #### 2021.05.29
@@ -27,25 +48,3 @@
 ✔ 현재 지도에서 검색하기 기능 추가<br>
 ✔ AWS 서버 배포<br>
 ✔ 팀 프로젝트 마감, 발표<br>
-
-
-## ⚙ 외부 패키지 설치
-
-<details><summary>how to local set up</summary>
-
-python 가상 환경(3.8 버전 +)
-
-1. poetry
-   ```shell
-    $ cd backend
-    $ poetry install
-   ```
-
-
-2. npm
-   ```shell
-    $ cd frontend
-    $ npm install
-   ```
-
-</details>
